@@ -2,23 +2,37 @@
 
 import util
 
-text = util.load("tests/text_midi.txt")
-header = util.load("tests/text_midi_hdr.txt")
-word_count = util.count_words(text)
-print("Words:", word_count)
-util.estimated_rendered_size(text)
-
-header = util.replace_word_counter(header, word_count)
+# text = util.load("tests/text_midi.txt")
+# header = util.load("tests/text_midi_hdr.txt")
+# word_count = util.count_words(text)
+# print("Words:", word_count)
+# util.estimated_rendered_size(text)
+#
+# header = util.replace_word_counter(header, word_count)
 
 
 def main():
-    post, comments = split_text(text)
+    post, comments = split_text_with_comments(header, text)
     print("comments:", len(comments))
     util.store("split_part1.txt", post)
     util.store("split_part2.txt", comments[0])
 
 
-def split_text(text):
+def find_header(text_with_header):
+    if "<b>Для голосования:</b>" not in text_with_header:
+        raise Exception("Шапка не найдена (<b>Для голосования:</b>)")
+
+    a = text_with_header.split("\n")
+    for (i, line) in enumerate(a):
+        if line.startswith("<b>Для голосования:</b>"):
+            header = "\n".join(a[:i+1])
+            text = "\n".join(a[i+1:])
+            return header, text.strip()
+
+
+def split_text_with_comments(_header, text):
+    global header
+    header = _header
     post_text, rest = find_max_split(text, post_criterion)
     post = compile_post(post_text)
     comments = []
@@ -27,6 +41,19 @@ def split_text(text):
         comments.append(compile_comment(part1))
         rest = part2
     return post, comments
+
+
+def split_text_with_posts(_header, text):
+    global header
+    header = _header
+    posts = []
+
+    while len(text) > 0:
+        post_text, text = find_max_split(text, post_criterion)
+        post = compile_post(post_text)
+        posts.append(post)
+        header = None
+    return posts
 
 
 def find_max_split(text, criterion):
@@ -60,7 +87,10 @@ def comment_criterion(text):
 
 def compile_post(text):
     text_more = _wrap(text, "design/post_more.txt")
-    post_body = header + "\n" + text_more
+    if header:
+        post_body = header + "\n\n" + text_more
+    else:
+        post_body = text_more
     post = _wrap(post_body, "design/post.txt")
     return post
 

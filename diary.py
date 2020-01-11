@@ -52,14 +52,14 @@ class Diary:
             "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0",
             "Accept": "application/json",
             #"Content-Type": "application/x-www-form-urlencoded",
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            #"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
             #"Content-Type": "multipart/form-data; charset=UTF-8; boundary=" + boundary
         }
 
         #headers["Content-Type"] = "multipart/form-data; charset=UTF-8; boundary=d41d8cd98f00b204e9800998ecf8427e"
 
         http = urllib3.PoolManager()
-        response = http.request("POST", url, params2, headers, encode_multipart=False, multipart_boundary=boundary)
+        response = http.request("POST", url, params2, headers)#, encode_multipart=False, multipart_boundary=boundary)
         response = response.data.decode("utf8")
         print(response)
         result = json.loads(response)
@@ -83,8 +83,8 @@ class Diary:
     def new_post(self, text, userid=None):
         params = dict()
         params['sid'] = self.sid
-        params['message'] = text.encode("utf8")
-        params['close_access_mode'] = 7
+        params['message'] = text.encode("cp1251")
+        #params['close_access_mode'] = 7
         if userid is not None:
             params['juserid'] = userid
         result = self._request_large("post.create", params)
@@ -93,7 +93,7 @@ class Diary:
     def add_comment(self, postid, text):
         params = dict()
         params['sid'] = self.sid
-        params['postid'] = postid
+        params['postid'] = str(postid)
         params['message'] = text
         self._request_large("comment.create", params)
 
@@ -134,17 +134,17 @@ class Diary:
         return comment_list
 
 
-login = "<login>"
-password = "<password>"
-
-api = Diary()
-api.login(login, password)
-
-import util
-text = util.load("split_part1.txt")
-text = "это пост в utf8"
-#posts = api.get_posts(None, 0)
-api.new_post(text)
+# login = "<login>"
+# password = "<password>"
+#
+# api = Diary()
+# api.login(login, password)
+#
+# import util
+# text = util.load("split_part1.txt")
+# text = "это пост в utf8"
+# #posts = api.get_posts(None, 0)
+# api.new_post(text)
 #print(posts)
 
 #
