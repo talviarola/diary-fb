@@ -32,12 +32,12 @@ def split_text(text):
 def find_max_split(text, criterion):
     if criterion(text):
         return text, ""
-    a = text.split("\n\n")
+    a = text.split("\n")
 
     good_split = None
     for i in range(len(a) - 1):
-        part1 = "\n\n".join(a[:i])
-        part2 = "\n\n".join(a[i:])
+        part1 = "\n".join(a[:i])
+        part2 = "\n".join(a[i:])
         if criterion(part1):
             good_split = (part1, part2)
         else:
