@@ -75,14 +75,14 @@ def post_criterion(text):
     post = compile_post(text)
     if len(post) < 40000:
         return True
-    if len(post) >= 62000:
+    if len(post) >= 61000:
         return False
-    return util.estimated_rendered_size(post) < 65520
+    return util.estimated_rendered_size(post) < 0xF800
 
 
 def comment_criterion(text):
     comment = compile_comment(text)
-    return len(comment) < 10240
+    return len(comment) < 10050
 
 
 def compile_post(text):
