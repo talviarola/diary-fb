@@ -18,3 +18,6 @@ setup(
     }},
     executables=[Executable("gui.py", base="Win32GUI")]
 )
+
+# Use the following command to build .exe:
+# python setup.py build_exe
