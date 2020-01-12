@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import unicodedata
 import unittest
 import re
 
@@ -83,6 +84,34 @@ def estimated_rendered_size(text):
     return len(estimated_render(text))
 
 
+def fix_characters(text: str):
+    try:
+        text.encode("cp1251")
+        return text
+    except:
+        pass
+    text = unicodedata.normalize('NFD', text)
+    text = text.replace(chr(0x301), '&#769;')  # stress
+    text = text.replace(chr(0x308), '&#776;')  # umlaut
+
+    # TODO: fix this maybe
+    #text = text.replace(' - ', ' &mdash; ')
+    #text = text.replace("\n- ", "\n&mdash; ")
+    text = text.replace(chr(0x2013), '&ndash;')
+    text = text.replace(chr(0x2014), '&mdash;')
+    text = text.replace(chr(0x2012), '&#8210;')
+    text = text.replace(chr(0x2015), '&#8213;')
+
+    text = text.replace('"', '&#34;')
+    text = text.replace('«', '&#171;')
+    text = text.replace('»', '&#187;')
+
+    text = text.replace('©', '&#169;')
+    text = text.replace('§', '&#167;')
+
+    return text
+
+
 class TestWordCounter(unittest.TestCase):
     def test_trivial(self):
         self.assertEqual(count_words(""), 0)
@@ -99,6 +128,21 @@ class TestWordCounter(unittest.TestCase):
     def test_text3(self):
         text = load("tests/text3.txt")
         self.assertEqual(count_words(text), 9164)
+
+
+class WeirdCharacters(unittest.TestCase):
+    def test_trivial(self):
+        self.assertEqual("", fix_characters(""))
+        self.assertEqual("слово", fix_characters("слово"))
+
+    def test_stress(self):
+        self.assertEqual("Ударе&#769;ние", fix_characters("Ударе́ние"))
+
+    def test_umlaut(self):
+        self.assertEqual("Moto&#776;rhead", fix_characters("Motörhead"))
+
+    def test_dash(self):
+        self.assertEqual("l &mdash; Lol", fix_characters("l - Lol"))
 
 
 if __name__ == "__main__":

@@ -82,6 +82,7 @@ class Window:
         try:
             api.login(login, password)
             text_with_header = util.load(filename)
+            text_with_header = util.fix_characters(text_with_header)
             header, text = find_header(text_with_header)
             if split_type == 1:
                 post, comments = split_text_with_comments(header, text)
