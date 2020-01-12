@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import os
 from tkinter import *
 from tkinter import messagebox
 from tkinter.filedialog import askopenfilename
@@ -82,28 +83,29 @@ class Window:
         try:
             api.login(login, password)
             text_with_header = util.load(filename)
+            prefix = os.path.splitext(filename)[0]
             text_with_header = util.fix_characters(text_with_header)
             header, text = find_header(text_with_header)
             if split_type == 1:
                 post, comments = split_text_with_comments(header, text)
-                util.store("post.txt", post)
+                util.store(prefix + "_post.txt", post)
                 for i, comment in enumerate(comments):
-                    util.store("comment_%d.txt" % (i+1), comment)
+                    util.store(prefix + "_comment_%d.txt" % (i+1), comment)
 
                 # Send to diary
                 post_id = api.new_post(post, diary_id)
                 for comment in comments:
                     api.add_comment(post_id, comment)
+                messagebox.showinfo("Info", "Пост успешно опубликован, тексты комментариев ищите в файлах *comment_N.txt")
             else:
                 posts = split_text_with_posts(header, text)
                 for i, post in enumerate(posts):
-                    util.store("post_%d.txt" % (i + 1), post)
+                    util.store(prefix + "_post_%d.txt" % (i + 1), post)
 
                 # Send to diary
                 for post in posts:
                     api.new_post(post, diary_id)
-
-            messagebox.showinfo("Info", "Отправлено")
+                messagebox.showinfo("Info", "Посты успешно опубликованы. Тексты продублированы в файлы *post_N.txt")
         except Exception as e:
             messagebox.showinfo("Error", str(e))
             return
