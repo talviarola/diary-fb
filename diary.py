@@ -17,7 +17,7 @@ class Diary:
 
     @staticmethod
     def _request(method, params):
-        url = "http://www.diary.ru/api/"
+        url = "https://www.diary.ru/api/"
         params2 = params.copy()
         params2['method'] = method
         #data = urlencode(params2)
@@ -41,7 +41,7 @@ class Diary:
 
     @staticmethod
     def _request_large(method, params):
-        url = "http://www.diary.ru/api/"
+        url = "https://www.diary.ru/api/"
         params2 = params.copy()
         params2['method'] = method
         data = urlencode(params2)
