@@ -27,8 +27,8 @@ class Window:
         self.password_edit = Entry(frame)
         self.password_edit.place(x=70, y=50, width=100, height=20)
 
-        address_label = Label(frame, text="Diary ID")
-        address_label.place(x=240, y=50)
+        diary_id_label = Label(frame, text="Diary ID")
+        diary_id_label.place(x=240, y=50)
         self.diary_id_edit = Entry(frame)
         self.diary_id_edit.place(x=290, y=50, width=200, height=20)
 
