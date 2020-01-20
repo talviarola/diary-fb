@@ -95,7 +95,11 @@ class Window:
                 post_id = api.new_post(post, diary_id)
                 for comment in comments:
                     api.add_comment(post_id, comment)
-                messagebox.showinfo("Info", "Пост успешно опубликован, тексты комментариев ищите в файлах *comment_N.txt")
+
+                if len(comment) > 0:
+                    messagebox.showinfo("Info", "Пост успешно опубликован, тексты комментариев ищите в файлах *comment_N.txt")
+                else:
+                    messagebox.showinfo("Info", "Пост успешно опубликован")
             else:
                 posts = split_text_with_posts(header, text)
                 for i, post in enumerate(posts):
