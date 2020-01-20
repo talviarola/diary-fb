@@ -2,21 +2,6 @@
 
 import util
 
-# text = util.load("tests/text_midi.txt")
-# header = util.load("tests/text_midi_hdr.txt")
-# word_count = util.count_words(text)
-# print("Words:", word_count)
-# util.estimated_rendered_size(text)
-#
-# header = util.replace_word_counter(header, word_count)
-
-
-def main():
-    post, comments = split_text_with_comments(header, text)
-    print("comments:", len(comments))
-    util.store("split_part1.txt", post)
-    util.store("split_part2.txt", comments[0])
-
 
 def find_header(text_with_header):
     if "<b>Для голосования:</b>" not in text_with_header:
@@ -102,7 +87,3 @@ def compile_comment(text):
 def _wrap(text, template):
     template = util.load(template)
     return template.replace("@BODY@", text)
-
-
-if __name__ == "__main__":
-    main()

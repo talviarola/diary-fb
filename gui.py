@@ -3,7 +3,6 @@ import os
 from tkinter import *
 from tkinter import messagebox
 from tkinter.filedialog import askopenfilename
-import time
 
 import util
 from diary import Diary
