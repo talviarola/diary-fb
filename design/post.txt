@@ -3,6 +3,8 @@
 <div style="padding: 2% 9% 2% 9%;"><img src="http://images.vfl.ru/ii/1579544173/72ffc8d9/29266084.png">
 
 <div align="justify">
-@BODY@</div>
+@HEADER@
+
+[MORE=<div align="center"><img src="http://images.vfl.ru/ii/1579544885/db9c5fc1/29266257.png" alt="читать дальше" style="height:auto; max-width:600px;"></div>]@BODY@[/MORE]</div>
 
 </div><img width="100%;" src="http://images.vfl.ru/ii/1579544170/1c61e838/29266082.png" alt="низ"></div></div>[/MORE]
