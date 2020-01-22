@@ -96,7 +96,7 @@ class Window:
                 for comment in comments:
                     api.add_comment(post_id, comment)
 
-                if len(comment) > 0:
+                if len(comments) > 0:
                     messagebox.showinfo("Info", "Пост успешно опубликован, тексты комментариев ищите в файлах *comment_N.txt")
                 else:
                     messagebox.showinfo("Info", "Пост успешно опубликован")
