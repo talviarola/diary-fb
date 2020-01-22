@@ -71,19 +71,18 @@ def comment_criterion(text):
 
 
 def compile_post(text):
-    text_more = _wrap(text, "design/post_more.txt")
+    template = util.load("design/post.txt")
+    post = template.replace("@BODY@", text)
     if header:
-        post_body = header + "\n\n" + text_more
+        post = post.replace("@HEADER@", header)
     else:
-        post_body = text_more
-    post = _wrap(post_body, "design/post.txt")
+        # Subsequent posts do not have header, the "header" variable is set to None
+        post = post.replace("@HEADER@\n\n", "")
+        post = post.replace("@HEADER@\n", "")
+        post = post.replace("@HEADER@", "")
     return post
 
 
 def compile_comment(text):
-    return _wrap(text, "design/comment.txt")
-
-
-def _wrap(text, template):
-    template = util.load(template)
+    template = util.load("design/comment.txt")
     return template.replace("@BODY@", text)
