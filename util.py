@@ -10,6 +10,7 @@ def load(filename):
     f = open(filename, "rt", encoding="utf8")
     text = f.read()
     f.close()
+    text = text.replace('\ufeff', '')  # Remove BOM
     return text
 
 
